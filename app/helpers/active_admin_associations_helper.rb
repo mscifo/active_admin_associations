@@ -3,12 +3,15 @@ module ActiveAdminAssociationsHelper
     collection = object.send(association.name).page(1)
     relationship_class = object.class.reflect_on_association(association.name).klass
     columns = association.fields.presence || relationship_class.content_columns
-    render :partial => 'admin/shared/collection_table', :locals => {
-      :object => object,
-      :collection => collection,
-      :relationship => association.name,
-      :columns => columns,
-      :relationship_class => relationship_class
+    params = {
+        :object => object,
+        :collection => collection,
+        :relationship => association.name,
+        :columns => columns,
+        :relationship_class => relationship_class
+    }
+    render :partial => 'collection_table', :locals => params rescue {
+      render :partial 'admin/shared/collection_table', :locals => params
     }
   end
   

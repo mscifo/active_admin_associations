@@ -1,10 +1,14 @@
 <div class="relationship-table" id="relationship-table-<%= relationship %>">
   <h3><%= object.class.human_attribute_name(relationship) %></h3>
-  <%= render :partial => 'admin/shared/add_to_association', :locals => {
+  <%= render :partial => 'add_to_association', :locals => {
     :relationship_class => relationship_class,
     :object => object,
     :relationship => relationship
-  } %>
+  } rescue render :partial => 'admin/shared/add_to_association', :locals => {
+    :relationship_class => relationship_class,
+    :object => object,
+    :relationship => relationship
+  }%>
   <%- if collection.present? -%>
     <table class="index_table">
       <thead>
@@ -29,11 +33,15 @@
             <%- end -%>
             <td class="actions">
               <%- if resource_administrated?(record.class) -%>
-                <%= render :partial => 'admin/shared/association_collection_table_actions', :locals => {
+                <%= render :partial => 'association_collection_table_actions', :locals => {
                   :record => record,
                   :object => object,
                   :relationship => relationship
-                } %>
+                } rescue render :partial => 'admin/shared/association_collection_table_actions', :locals => {
+                    :record => record,
+                    :object => object,
+                    :relationship => relationship
+                }%>
               <%- else -%>
                 &nbsp;
               <%- end -%>
@@ -51,8 +59,10 @@
       </div>
     </div>
   <%- else -%>
-    <%= render :partial => 'admin/shared/blank_slate', :locals => {
+    <%= render :partial => 'blank_slate', :locals => {
       :blank_text => "There are no #{object.class.human_attribute_name(relationship)}"
-    } %>
+    } rescue render :partial => 'admin/shared/blank_slate', :locals => {
+        :blank_text => "There are no #{object.class.human_attribute_name(relationship)}"
+    }%>
   <%- end -%>
 </div>
