@@ -10,9 +10,7 @@ module ActiveAdminAssociationsHelper
         :columns => columns,
         :relationship_class => relationship_class
     }
-    render :partial => 'collection_table', :locals => params rescue {
-      render :partial 'admin/shared/collection_table', :locals => params
-    }
+    render :partial => 'collection_table', :locals => params rescue render :partial => 'admin/shared/collection_table', :locals => params
   end
   
   def admin_form_for(record)
